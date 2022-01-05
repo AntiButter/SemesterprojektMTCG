@@ -1,0 +1,5 @@
+C:\Users\simon\source\repos\MonsterTradingCardsGame\MonsterTradingCardsGame\obj\Debug\netcoreapp3.1\MonsterTradingCardsGame.csproj.AssemblyReference.cache
+C:\Users\simon\source\repos\MonsterTradingCardsGame\MonsterTradingCardsGame\obj\Debug\netcoreapp3.1\MonsterTradingCardsGame.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\simon\source\repos\MonsterTradingCardsGame\MonsterTradingCardsGame\obj\Debug\netcoreapp3.1\MonsterTradingCardsGame.AssemblyInfoInputs.cache
+C:\Users\simon\source\repos\MonsterTradingCardsGame\MonsterTradingCardsGame\obj\Debug\netcoreapp3.1\MonsterTradingCardsGame.AssemblyInfo.cs
+C:\Users\simon\source\repos\MonsterTradingCardsGame\MonsterTradingCardsGame\obj\Debug\netcoreapp3.1\MonsterTradingCardsGame.csproj.CoreCompileInputs.cache

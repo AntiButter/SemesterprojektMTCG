@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="MonsterTradingCardsGame.Cards.cardBase" BaseTypeListCollapsed="true">
+    <Position X="2.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAggAAAAAAgAAAAAAAQAAAAgAAAQ=</HashCode>
+      <FileName>Cards\cardBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="MonsterTradingCardsGame.CardShop.Shop" BaseTypeListCollapsed="true">
+    <Position X="8.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAIABAAAAAAAEgAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CardShop\Shop.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="MonsterTradingCardsGame.EnumsAreTheEnemy.CardTypeEnum">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="MonsterTradingCardsGame.EnumsAreTheEnemy.CardTypeEnum.CardTypes" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>EnumsAreTheEnemy\CardTypeEnum.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EnumsAreTheEnemy\CardTypeEnum.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MonsterTradingCardsGame.EnumsAreTheEnemy.ElementsEnum">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="MonsterTradingCardsGame.EnumsAreTheEnemy.ElementsEnum.elements" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>EnumsAreTheEnemy\ElementsEnum.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EnumsAreTheEnemy\ElementsEnum.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MonsterTradingCardsGame.Fights.DamageCalc">
+    <Position X="6.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Fights\DamageCalc.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MonsterTradingCardsGame.Fights.Fighting" BaseTypeListCollapsed="true">
+    <Position X="6.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Fights\Fighting.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="MonsterTradingCardsGame.Menu.Menu">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>Menu\Menu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MonsterTradingCardsGame.Users.BaseUser" BaseTypeListCollapsed="true">
+    <Position X="11.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAAAAQQACgAgACAAABAACQAAAAAAAAAI=</HashCode>
+      <FileName>Users\baseUser.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="MonsterCardGame.Program">
+    <Position X="0.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="MonsterTradingCardsGame.Cards.ICard">
+    <Position X="2.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Cards\ICard.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="MonsterTradingCardsGame.CardShop.IShop">
+    <Position X="8.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAEgAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CardShop\IShop.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="MonsterTradingCardsGame.Fights.IFights">
+    <Position X="6.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Fights\IFights.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="MonsterTradingCardsGame.Users.IUser">
+    <Position X="11.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAAAAQAAAAAAAAAAABAAAQAAAAAAAAAI=</HashCode>
+      <FileName>Users\IUser.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
