@@ -16,18 +16,29 @@ namespace MonsterTradingCardsGame.Menu
             int input = Convert.ToInt32(Console.ReadLine());
             if(input == 1)
             {
+                Console.WriteLine("Username: ");
                 var username = Console.ReadLine();
+                Console.WriteLine("Password: ");
                 var password = Console.ReadLine();
-                DataBaseConnection.getInstance().login(username, password);
+                if (DataBaseConnection.getInstance().login(username, password))
+                {
+                    Console.Clear();
+                    Console.WriteLine("logged in succesfully");
+                    System.Threading.Thread.Sleep(1000);
+                    Console.Clear();
+                    MenuLoop();
+                }
             }
             else if(input == 2)
             {
+                Console.WriteLine("Username: ");
                 var username = Console.ReadLine();
+                Console.WriteLine("Password: ");
                 var password = Console.ReadLine();
                 DataBaseConnection.getInstance().register(username, password);
             }
         }
-        public void MenuLoop(BaseUser User)
+        public void MenuLoop()
         {
             Console.Clear();
             Fighting fight = new Fighting();
@@ -44,7 +55,6 @@ namespace MonsterTradingCardsGame.Menu
                         break;
                     case "coll":
                         Console.Clear();
-                        User.ShowUserCollection();
                         Console.WriteLine("Press any key to return to menu");
                         Console.ReadKey();
                         break;

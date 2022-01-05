@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MonsterTradingCardsGame.Users;
 namespace MonsterTradingCardsGame.DataBase
 {
     class DataBaseConnection
@@ -33,30 +34,37 @@ namespace MonsterTradingCardsGame.DataBase
         public void register(string username, string password)
         {
                 connect();
-                using (var cmd = new NpgsqlCommand("INSERT INTO users (username, password, coins, elo) VALUES (@u, @p, @c, @e)", database))
+                using (var statement = new NpgsqlCommand("INSERT INTO users (username, password, coins, elo) VALUES (@user, @pass, @co, @elo)", database))
                 {
-                    cmd.Parameters.AddWithValue("u", username);
-                    cmd.Parameters.AddWithValue("p", 123);
-                    cmd.Parameters.AddWithValue("c", 20);
-                    cmd.Parameters.AddWithValue("e", 0);
-                    cmd.ExecuteNonQuery();
+                    statement.Parameters.AddWithValue("user", username);
+                    statement.Parameters.AddWithValue("pass", password);
+                    statement.Parameters.AddWithValue("co", 20);
+                    statement.Parameters.AddWithValue("elo", 0);
+                    statement.ExecuteNonQuery();
                 }
                 disconnect();
             
         }
-        public void login(string username, string password)
+        public bool login(string username, string password)
         {
             connect();
-            using (var cmd = new NpgsqlCommand("INSERT INTO users (username, password, coins, elo) VALUES (@u, @p, @c, @e)", database))
+            using (var statement = new NpgsqlCommand("SELECT username, password FROM users WHERE username = (@user) AND password = (@pass)", database))
             {
-                cmd.Parameters.AddWithValue("u", username);
-                cmd.Parameters.AddWithValue("p", 123);
-                cmd.Parameters.AddWithValue("c", 20);
-                cmd.Parameters.AddWithValue("e", 0);
-                cmd.ExecuteNonQuery();
+                statement.Parameters.AddWithValue("user", username);
+                statement.Parameters.AddWithValue("pass", password);
+
+                NpgsqlDataReader reader = statement.ExecuteReader();
+                if(reader.HasRows)
+                {
+                    disconnect();
+                    return true;
+                }
+                
+                
             }
             disconnect();
-
+            return false;
         }
+        
     }
 }

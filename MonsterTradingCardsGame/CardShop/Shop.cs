@@ -7,9 +7,9 @@ namespace MonsterTradingCardsGame.CardShop
 {
     class Shop : IShop
     {
-        List<cardBase[]> BuyablePacks;
-        List<cardBase> CardListClassicSet;
+        List<cardBase> CardListClassicSet = new List<cardBase>();
 
+        
 
         public void AddCard(cardBase newCard)
         {
