@@ -16,7 +16,6 @@ namespace MonsterCardGame
     {
         static void Main(string[] args)
         {
-            DataBaseConnection.getInstance().register();
             Menu menu = new Menu();
             ElementsEnum elements = new ElementsEnum();
             CardTypeEnum types = new CardTypeEnum();
@@ -24,7 +23,7 @@ namespace MonsterCardGame
             string username = Console.ReadLine();
             Console.WriteLine("Password: ");
             string password = Console.ReadLine();
-            BaseUser SetoKaiba = new BaseUser(password,username,1);
+           
             BaseUser PikachuAI = new BaseUser("chuuu", "PikaAI", 2);
             //SetoKaiba.ShowUserInformation();
             //Pikachu.ShowUserInformation();
@@ -33,17 +32,7 @@ namespace MonsterCardGame
             cardBase FireGoblin = new cardBase("Fire Goblin", 30, ElementsEnum.elements.fire, CardTypeEnum.CardTypes.monster, 3);
             cardBase Shadowstep = new cardBase("Shadowstep",40, ElementsEnum.elements.normal, CardTypeEnum.CardTypes.spell, 4);
             cardBase MegaRayquaza = new cardBase("Mega Rayquaza", 500000, ElementsEnum.elements.normal, CardTypeEnum.CardTypes.monster, 5);
-            SetoKaiba.AddCardToUserCollection(Goblinbergh);
-            SetoKaiba.AddCardToUserCollection(WaterSpout);
-            SetoKaiba.AddCardToUserCollection(FireGoblin);
-            SetoKaiba.AddCardToUserCollection(Shadowstep);
-            PikachuAI.AddCardToUserCollection(Goblinbergh);
-            PikachuAI.AddCardToUserCollection(WaterSpout);
-            PikachuAI.AddCardToUserCollection(FireGoblin);
-            PikachuAI.AddCardToUserCollection(Shadowstep);
-            SetoKaiba.CreateDeck();
-            PikachuAI.CreateDeck();
-            menu.MenuLoop(SetoKaiba, PikachuAI);
+            menu.MenuLoop(SetoKaiba);
         }
     }
 }

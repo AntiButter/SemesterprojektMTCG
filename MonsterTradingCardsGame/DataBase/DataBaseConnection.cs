@@ -30,19 +30,33 @@ namespace MonsterTradingCardsGame.DataBase
             database.Close();
         }
 
-        public void register()
+        public void register(string username, string password)
         {
                 connect();
                 using (var cmd = new NpgsqlCommand("INSERT INTO users (username, password, coins, elo) VALUES (@u, @p, @c, @e)", database))
                 {
-                    cmd.Parameters.AddWithValue("u", "Tesla");
+                    cmd.Parameters.AddWithValue("u", username);
                     cmd.Parameters.AddWithValue("p", 123);
                     cmd.Parameters.AddWithValue("c", 20);
-                    cmd.Parameters.AddWithValue("e", 50000);
+                    cmd.Parameters.AddWithValue("e", 0);
                     cmd.ExecuteNonQuery();
                 }
                 disconnect();
             
+        }
+        public void login(string username, string password)
+        {
+            connect();
+            using (var cmd = new NpgsqlCommand("INSERT INTO users (username, password, coins, elo) VALUES (@u, @p, @c, @e)", database))
+            {
+                cmd.Parameters.AddWithValue("u", username);
+                cmd.Parameters.AddWithValue("p", 123);
+                cmd.Parameters.AddWithValue("c", 20);
+                cmd.Parameters.AddWithValue("e", 0);
+                cmd.ExecuteNonQuery();
+            }
+            disconnect();
+
         }
     }
 }
