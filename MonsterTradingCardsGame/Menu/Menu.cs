@@ -39,6 +39,10 @@ namespace MonsterTradingCardsGame.Menu
                 var password = Console.ReadLine();
                 DataBaseConnection.getInstance().register(username, password);
             }
+            else if(input == 3)
+            {
+                AdminMenu();
+            }
         }
         public void MenuLoop(BaseUser user)
         {
@@ -68,6 +72,30 @@ namespace MonsterTradingCardsGame.Menu
                 }
                 Console.Clear();
             }
+        }
+        public void AdminMenu()
+        {
+            while(true)
+            {
+                Console.WriteLine("Add card (1)");
+                int input = Convert.ToInt32(Console.ReadLine());
+                if(input == 1)
+                {
+                    Console.WriteLine("Name: ");
+                    var name = Console.ReadLine();
+                    Console.WriteLine("Damage: ");
+                    var damage = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Type: ");
+                    var type = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Element: ");
+                    var element = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Race: ");
+                    var race = Convert.ToInt32(Console.ReadLine());
+
+                    DataBaseConnection.getInstance().addCardToSet(name, damage, type, element, race);
+                }
+            }
+            
         }
     }
 }

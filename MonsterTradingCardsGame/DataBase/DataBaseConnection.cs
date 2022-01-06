@@ -102,6 +102,20 @@ namespace MonsterTradingCardsGame.DataBase
                 return tempset;
             }
         }
+        public void addCardToSet(string name, int damage, int type, int element, int race)
+        {
+            connect();
+            using (var statement = new NpgsqlCommand("INSERT INTO basiccardset (name, damage, type, element, race) VALUES (@name,@damage,@type,@element,@race)", database))
+            {
+                statement.Parameters.AddWithValue("name",name);
+                statement.Parameters.AddWithValue("damage", damage);
+                statement.Parameters.AddWithValue("type", type);
+                statement.Parameters.AddWithValue("element", element);
+                statement.Parameters.AddWithValue("race", race);
+                statement.ExecuteNonQuery();
+            }
+            disconnect();   
+        }
         
         
     }
