@@ -8,13 +8,14 @@ namespace MonsterTradingCardsGame.Cards
 {
     class cardBase : ICard
     {
-        public cardBase(string NameOfCard, int DamageValue, ElementsEnum.elements CardElement, CardTypeEnum.CardTypes CardType, int ID)
+        public cardBase(string NameOfCard, int DamageValue, ElementsEnum.elements CardElement, CardTypeEnum.CardTypes CardType,CardRaceEnum.Races race, int ID)
         {
             CardName = NameOfCard;
             CardDamage = DamageValue;
             Element = CardElement;
             Type = CardType;
             CardID = ID;
+            Race = race;
         }
 
         public string CardName { get; set; }
@@ -22,6 +23,8 @@ namespace MonsterTradingCardsGame.Cards
         int CardDamage;
         public ElementsEnum.elements Element { get; set; }
         public CardTypeEnum.CardTypes Type { get; set; }
+        public CardRaceEnum.Races Race { get; set; }
+
 
         public int GetCardDamage()
         {
@@ -30,10 +33,9 @@ namespace MonsterTradingCardsGame.Cards
         public void ShowStats()
         {
             Console.WriteLine();
-            Console.WriteLine($"{CardName} Type: {Type} Element: {Element}");
+            Console.WriteLine($"{CardName} Type: {Type} Element: {Element} Race: {Race}");
             Console.WriteLine($"Damage: {CardDamage}");
             Console.WriteLine();
-
         }
  
     }

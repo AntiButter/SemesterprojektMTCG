@@ -7,15 +7,8 @@ namespace MonsterTradingCardsGame.CardShop
 {
     class Shop : IShop
     {
-        List<cardBase> CardListClassicSet = new List<cardBase>();
 
-        
-
-        public void AddCard(cardBase newCard)
-        {
-            CardListClassicSet.Add(newCard);
-        }
-
+ 
         public void ShowPacks()
         {
             throw new NotImplementedException();

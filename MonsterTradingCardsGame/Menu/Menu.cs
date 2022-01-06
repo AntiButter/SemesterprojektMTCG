@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MonsterTradingCardsGame.Users;
 using MonsterTradingCardsGame.Fights;
 using MonsterTradingCardsGame.DataBase;
+using MonsterTradingCardsGame.Cards;
 namespace MonsterTradingCardsGame.Menu
 {
     class Menu
@@ -20,13 +21,14 @@ namespace MonsterTradingCardsGame.Menu
                 var username = Console.ReadLine();
                 Console.WriteLine("Password: ");
                 var password = Console.ReadLine();
-                if (DataBaseConnection.getInstance().login(username, password))
+                BaseUser User = DataBaseConnection.getInstance().login(username, password);
+                if(User != null)
                 {
                     Console.Clear();
                     Console.WriteLine("logged in succesfully");
                     System.Threading.Thread.Sleep(1000);
                     Console.Clear();
-                    MenuLoop();
+                    MenuLoop(User);
                 }
             }
             else if(input == 2)
@@ -38,11 +40,14 @@ namespace MonsterTradingCardsGame.Menu
                 DataBaseConnection.getInstance().register(username, password);
             }
         }
-        public void MenuLoop()
+        public void MenuLoop(BaseUser user)
         {
             Console.Clear();
             Fighting fight = new Fighting();
             bool running = true;
+            Set cardSet = DataBaseConnection.getInstance().getBasicCardSet();
+            cardSet.PrintSet();
+            user.ShowUserInformation();
             while(running)
             {
                 Console.WriteLine("Menu has appeared");

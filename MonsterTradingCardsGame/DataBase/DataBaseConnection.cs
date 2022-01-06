@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MonsterTradingCardsGame.Users;
+using MonsterTradingCardsGame.Cards;
+using MonsterTradingCardsGame.EnumsAreTheEnemy;
 namespace MonsterTradingCardsGame.DataBase
 {
     class DataBaseConnection
@@ -30,25 +32,37 @@ namespace MonsterTradingCardsGame.DataBase
         {
             database.Close();
         }
+        public int GenerateToken(string name)
+        {
+            int token = 0;
+            int i = 0;
+            foreach (Char character in name)
+            {
+                token += (int)character * i;
+                i++;
+            }
+            return token;
+        }
 
         public void register(string username, string password)
         {
                 connect();
-                using (var statement = new NpgsqlCommand("INSERT INTO users (username, password, coins, elo) VALUES (@user, @pass, @co, @elo)", database))
+                using (var statement = new NpgsqlCommand("INSERT INTO users (username, password, coins, elo, token) VALUES (@user, @pass, @co, @elo, @token)", database))
                 {
                     statement.Parameters.AddWithValue("user", username);
                     statement.Parameters.AddWithValue("pass", password);
                     statement.Parameters.AddWithValue("co", 20);
                     statement.Parameters.AddWithValue("elo", 0);
+                    statement.Parameters.AddWithValue("token", GenerateToken(username));
                     statement.ExecuteNonQuery();
                 }
                 disconnect();
             
         }
-        public bool login(string username, string password)
+        public BaseUser login(string username, string password)
         {
             connect();
-            using (var statement = new NpgsqlCommand("SELECT username, password FROM users WHERE username = (@user) AND password = (@pass)", database))
+            using (var statement = new NpgsqlCommand("SELECT userid,username,token,coins,elo FROM users WHERE username = (@user) AND password = (@pass)", database))
             {
                 statement.Parameters.AddWithValue("user", username);
                 statement.Parameters.AddWithValue("pass", password);
@@ -56,15 +70,39 @@ namespace MonsterTradingCardsGame.DataBase
                 NpgsqlDataReader reader = statement.ExecuteReader();
                 if(reader.HasRows)
                 {
+                    reader.Read();
+                    BaseUser tempUser = new BaseUser((string)reader["username"], (int)reader["userid"], (int)reader["coins"], (int)reader["token"], (int)reader["elo"]);
                     disconnect();
-                    return true;
+                    return tempUser;
                 }
                 
                 
             }
             disconnect();
-            return false;
+            return null;
         }
+        public Set getBasicCardSet()
+        {
+            connect();
+            using (var statement = new NpgsqlCommand("SELECT * FROM basiccardset", database))
+            {
+                Set tempset = new Set();
+                NpgsqlDataReader reader = statement.ExecuteReader();
+                if(reader.HasRows)
+                {
+                    while(reader.Read())
+                    { 
+                        cardBase tempCard = new cardBase(reader["name"].ToString(), (int)reader["damage"], (ElementsEnum.elements)reader["element"], (CardTypeEnum.CardTypes)reader["type"],
+                            (CardRaceEnum.Races)reader["race"], (int)reader["cardid"]);
+                        tempset.addCard(tempCard);
+                    } 
+                }
+                
+                disconnect();
+                return tempset;
+            }
+        }
+        
         
     }
 }

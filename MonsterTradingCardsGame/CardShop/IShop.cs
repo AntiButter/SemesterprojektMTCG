@@ -9,7 +9,6 @@ namespace MonsterTradingCardsGame.CardShop
        
         void ShowPacks();
         void PackPurchased();
-        void AddCard(cardBase newCard);
 
     }
 }

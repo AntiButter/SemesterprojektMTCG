@@ -7,19 +7,21 @@ namespace MonsterTradingCardsGame.Users
 {
     class BaseUser : IUser
     {
-        readonly string Password;
         string Username;
         int Currency;
         int UserID;
+        int Token;
+        int Elo;
         List<cardBase> UserCollection = new List<cardBase>();
         List<cardBase> Deck1 = new List<cardBase>();
 
-        public BaseUser(string UserPassword, string UserLoginName, int ID)
+        public BaseUser(string UserLoginName, int ID, int currency, int token, int elo)
         {
             Username = UserLoginName;
-            Password = UserPassword;
-            Currency = 20;
+            Currency = currency;
             UserID = ID;
+            Token = token;
+            Elo = elo;
             
         }
 
@@ -56,6 +58,8 @@ namespace MonsterTradingCardsGame.Users
         {
             Console.WriteLine($"User: {Username}");
             Console.WriteLine($"Coins: {Currency}");
+            Console.WriteLine($"Token: {Token}");
+            Console.WriteLine($"Elo: {Elo}");
             Console.WriteLine();
 
         }
