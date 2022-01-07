@@ -32,6 +32,27 @@ namespace MonsterTradingCardsGame.DataBase
         {
             database.Close();
         }
+        public BaseUser getPlayerstack(BaseUser user)
+        {
+            connect();
+            using (var statement = new NpgsqlCommand("Select b.cardid,b.name,b.damage,b.type,b.element,b.race from basiccardset b join usercards u on b.cardid = u.cardid join users u2 on u2.userid = u.userid WHERE u.userid = @userid", database))
+            {
+                statement.Parameters.AddWithValue("userid", user.UserID);
+                NpgsqlDataReader reader = statement.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        cardBase tempCard = new cardBase(reader["name"].ToString(), (int)reader["damage"], (ElementsEnum.elements)reader["element"], (CardTypeEnum.CardTypes)reader["type"],
+                            (CardRaceEnum.Races)reader["race"], (int)reader["cardid"]);
+                        user.AddCardToUserCollection(tempCard);
+                    }
+                    
+                }
+                disconnect();
+                return user;
+            }
+        }
         public int GenerateToken(string name)
         {
             int token = 0;
@@ -56,6 +77,7 @@ namespace MonsterTradingCardsGame.DataBase
                     statement.Parameters.AddWithValue("token", GenerateToken(username));
                     statement.ExecuteNonQuery();
                 }
+                login(username, password);
                 disconnect();
             
         }
@@ -73,6 +95,7 @@ namespace MonsterTradingCardsGame.DataBase
                     reader.Read();
                     BaseUser tempUser = new BaseUser((string)reader["username"], (int)reader["userid"], (int)reader["coins"], (int)reader["token"], (int)reader["elo"]);
                     disconnect();
+                    getPlayerstack(tempUser);
                     return tempUser;
                 }
                 
@@ -148,6 +171,7 @@ namespace MonsterTradingCardsGame.DataBase
 
             disconnect();
         }
+
 
     }
 }
