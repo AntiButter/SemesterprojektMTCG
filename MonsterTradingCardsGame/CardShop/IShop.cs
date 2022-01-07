@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 using MonsterTradingCardsGame.Cards;
+using MonsterTradingCardsGame.Users;
 namespace MonsterTradingCardsGame.CardShop
 {
     interface IShop
     {
-       
-        void ShowPacks();
-        void PackPurchased();
+
+        public void BuyPack(BaseUser user);
 
     }
 }

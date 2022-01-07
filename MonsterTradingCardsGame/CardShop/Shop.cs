@@ -2,21 +2,17 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
+using MonsterTradingCardsGame.Users;
+using MonsterTradingCardsGame.DataBase;
 namespace MonsterTradingCardsGame.CardShop
 {
     class Shop : IShop
     {
-
- 
-        public void ShowPacks()
+        public void BuyPack(BaseUser user)
         {
-            throw new NotImplementedException();
+            user.Currency -= 5;
+            DataBaseConnection.getInstance().generatePack(user);
         }
 
-        public void PackPurchased()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

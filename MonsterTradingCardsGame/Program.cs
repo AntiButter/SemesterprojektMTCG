@@ -20,12 +20,6 @@ namespace MonsterCardGame
             ElementsEnum elements = new ElementsEnum();
             CardTypeEnum types = new CardTypeEnum();
             CardRaceEnum races = new CardRaceEnum();
-            /*Console.WriteLine("Username: ");
-            string username = Console.ReadLine();
-            Console.WriteLine("Password: ");
-            string password = Console.ReadLine();*/
-            //SetoKaiba.ShowUserInformation();
-            //Pikachu.ShowUserInformation();
             menu.preMenu();
         }
     }

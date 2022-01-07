@@ -7,11 +7,11 @@ namespace MonsterTradingCardsGame.Users
 {
     class BaseUser : IUser
     {
-        string Username;
-        int Currency;
-        int UserID;
-        int Token;
-        int Elo;
+        public string Username { get; set; }
+        public int Currency { get; set; }
+        public int UserID { get; set; }
+        public int Token { get; set; }
+        public int Elo { get; set; }
         List<cardBase> UserCollection = new List<cardBase>();
         List<cardBase> Deck1 = new List<cardBase>();
 
@@ -25,9 +25,11 @@ namespace MonsterTradingCardsGame.Users
             
         }
 
+
         public void AddCardToUserCollection(cardBase CardToAdd)
         {
             UserCollection.Add(CardToAdd);
+            Console.WriteLine(UserCollection.Count);
         }
 
         public void CreateDeck()
@@ -45,12 +47,9 @@ namespace MonsterTradingCardsGame.Users
 
         public void ShowUserCollection()
         {
-            var counter = 1;
             foreach (cardBase card in UserCollection)
             {
-                Console.WriteLine($"Card {counter}");
                 card.ShowStats();
-                counter++;
             }
         }
 

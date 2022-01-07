@@ -116,7 +116,38 @@ namespace MonsterTradingCardsGame.DataBase
             }
             disconnect();   
         }
-        
-        
+        public void addCardToUser(cardBase card, BaseUser user)
+        {
+            connect();
+            using (var statement = new NpgsqlCommand("INSERT INTO usercards (userid, cardid) VALUES (@userid,@cardid)", database))
+            {
+                statement.Parameters.AddWithValue("userid", user.UserID);
+                statement.Parameters.AddWithValue("cardid", card.CardID);
+                statement.ExecuteNonQuery();
+            }
+            disconnect();
+            card.ShowStats();
+            user.AddCardToUserCollection(card);
+        }
+        public void generatePack(BaseUser user)
+        {
+            connect();
+            using (var statement = new NpgsqlCommand("SELECT * FROM basiccardset ORDER BY random() LIMIT 4", database))
+            {
+                NpgsqlDataReader reader = statement.ExecuteReader();
+                if(reader.HasRows)
+                {
+                    while(reader.Read())
+                    {
+                        cardBase tempCard = new cardBase(reader["name"].ToString(), (int)reader["damage"], (ElementsEnum.elements)reader["element"], (CardTypeEnum.CardTypes)reader["type"],
+                            (CardRaceEnum.Races)reader["race"], (int)reader["cardid"]);
+                        addCardToUser(tempCard, user);
+                    }
+                }
+            }
+
+            disconnect();
+        }
+
     }
 }

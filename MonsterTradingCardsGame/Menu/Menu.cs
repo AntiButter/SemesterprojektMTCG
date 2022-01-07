@@ -7,6 +7,7 @@ using MonsterTradingCardsGame.Users;
 using MonsterTradingCardsGame.Fights;
 using MonsterTradingCardsGame.DataBase;
 using MonsterTradingCardsGame.Cards;
+using MonsterTradingCardsGame.CardShop;
 namespace MonsterTradingCardsGame.Menu
 {
     class Menu
@@ -44,6 +45,25 @@ namespace MonsterTradingCardsGame.Menu
                 AdminMenu();
             }
         }
+        public void ShopLoop(BaseUser user)
+        {
+            Shop shop = new Shop();
+            Console.Clear();
+            bool running = true;
+            while(running)
+            {
+                Console.WriteLine("Buy Card Pack (1)");
+                var input = Convert.ToInt32(Console.ReadLine());
+                if(input == 1)
+                {
+                    shop.BuyPack(user);
+                }
+                else if(input == 2)
+                {
+                    return;
+                }
+            }
+        }
         public void MenuLoop(BaseUser user)
         {
             Console.Clear();
@@ -64,8 +84,12 @@ namespace MonsterTradingCardsGame.Menu
                         break;
                     case "coll":
                         Console.Clear();
+                        user.ShowUserCollection();
                         Console.WriteLine("Press any key to return to menu");
                         Console.ReadKey();
+                        break;
+                    case "shop":
+                        ShopLoop(user);
                         break;
                     case "stop":
                         return;
