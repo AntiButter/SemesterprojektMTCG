@@ -17,6 +17,15 @@ namespace MonsterTradingCardsGame.Cards
             CardID = ID;
             Race = race;
         }
+        public cardBase(cardBase card)
+        {
+            CardName = card.CardName;
+            CardDamage = card.CardDamage;
+            Element = card.Element;
+            Type = card.Type;
+            CardID = card.CardID;
+            Race = card.Race;
+        }
 
         public string CardName { get; set; }
         public int CardID { get; }
