@@ -182,7 +182,29 @@ namespace MonsterTradingCardsGame.DataBase
             }
             disconnect();
         }
+        public void ShowScoreboard()
+        {
+            connect();
+            using (var statement = new NpgsqlCommand("Select * from users order by elo desc", database))
+            {
 
+                NpgsqlDataReader reader = statement.ExecuteReader();
+                if(reader.HasRows)
+                {
+                    int counter = 1;
+                    Console.Clear();
+                    while(reader.Read())
+                    {
+                        Console.WriteLine($"{counter}: {reader["username"]} elo: {reader["elo"]}");
+                        counter++;
+                    }
+                }
+               
+
+
+            }
+            disconnect();
+        }
 
     }
 }

@@ -74,7 +74,7 @@ namespace MonsterTradingCardsGame.Menu
             while(running)
             {
                 Console.WriteLine("Menu has appeared");
-                Console.WriteLine("Fight AI (fightai)\nFight other Player(fight)\nShowCollection(coll)\nCreate a deck(create)\nShow Deck(show)\nStop(stop)");
+                Console.WriteLine("Fight AI (fightai)\nFight other Player(fight)\nShowCollection(coll)\nCreate a deck(create)\nShow Deck(show)\nShow Scoreboard(score)\nStop(stop)");
                 var input = Console.ReadLine();
                 switch(input)
                 {
@@ -95,6 +95,11 @@ namespace MonsterTradingCardsGame.Menu
                         break;
                     case "shop":
                         ShopLoop(user);
+                        break;
+                    case "score":
+                        DataBaseConnection.getInstance().ShowScoreboard();
+                        Console.WriteLine("Press any key to return to menu");
+                        Console.ReadKey();
                         break;
                     case "stop":
                         return;
