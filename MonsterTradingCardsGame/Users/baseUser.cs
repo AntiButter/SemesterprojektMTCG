@@ -87,5 +87,9 @@ namespace MonsterTradingCardsGame.Users
             Console.WriteLine();
 
         }
+        public void Trade(cardBase card)
+        {
+
+        }
     }
 }
