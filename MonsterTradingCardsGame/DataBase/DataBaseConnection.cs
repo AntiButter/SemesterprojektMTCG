@@ -171,6 +171,17 @@ namespace MonsterTradingCardsGame.DataBase
 
             disconnect();
         }
+        public void PlayerDeckAdd(BaseUser user, cardBase card)
+        {
+            connect();
+            using (var statement = new NpgsqlCommand("INSERT INTO userdeck (userid, cardid) VALUES (@userid,@cardid)", database))
+            {
+                statement.Parameters.AddWithValue("userid", user.UserID);
+                statement.Parameters.AddWithValue("cardid", card.CardID);
+                statement.ExecuteNonQuery();
+            }
+            disconnect();
+        }
 
 
     }

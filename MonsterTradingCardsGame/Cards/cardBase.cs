@@ -32,7 +32,6 @@ namespace MonsterTradingCardsGame.Cards
         }
         public void ShowStats()
         {
-            Console.WriteLine();
             Console.WriteLine($"{CardName} Type: {Type} Element: {Element} Race: {Race}");
             Console.WriteLine($"Damage: {CardDamage}");
             Console.WriteLine();

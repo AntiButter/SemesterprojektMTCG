@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using MonsterTradingCardsGame.Cards;
+using MonsterTradingCardsGame.DataBase;
 namespace MonsterTradingCardsGame.Users
 {
     class BaseUser : IUser
@@ -13,7 +14,7 @@ namespace MonsterTradingCardsGame.Users
         public int Token { get; set; }
         public int Elo { get; set; }
         List<cardBase> UserCollection = new List<cardBase>();
-        List<cardBase> Deck1 = new List<cardBase>();
+        List<cardBase> Deck = new List<cardBase>();
 
         public BaseUser(string UserLoginName, int ID, int currency, int token, int elo)
         {
@@ -31,25 +32,49 @@ namespace MonsterTradingCardsGame.Users
             UserCollection.Add(CardToAdd);
             Console.WriteLine(UserCollection.Count);
         }
-
+        public void AddCardToDeck(cardBase card)
+        {
+            DataBaseConnection.getInstance().PlayerDeckAdd(this, card);
+            Deck.Add(card);
+        }
+       
         public void CreateDeck()
         {
-            foreach(cardBase card in UserCollection)
+           
+            bool deckFinish = false;
+            while(!deckFinish)
             {
-                Deck1.Add(card);
+                Console.Clear();
+                ShowUserCollection();
+                Console.WriteLine("Choose Card to add: ");
+                int input = Convert.ToInt32(Console.ReadLine());
+                AddCardToDeck(UserCollection[input]);
+                if(Deck.Count >= 4)
+                {
+                    deckFinish = true;
+                }
             }
         }
-
+        public void ShowDeck()
+        {
+            foreach (cardBase card in Deck)
+            {
+                card.ShowStats();
+            }
+        }
         public List<cardBase> GetDeck()
         {
-            return Deck1;
+            return Deck;
         }
 
         public void ShowUserCollection()
         {
+            int counter = 0;
             foreach (cardBase card in UserCollection)
             {
+                Console.WriteLine($"Card {counter}");
                 card.ShowStats();
+                counter++;
             }
         }
 

@@ -70,15 +70,20 @@ namespace MonsterTradingCardsGame.Menu
             Fighting fight = new Fighting();
             bool running = true;
             Set cardSet = DataBaseConnection.getInstance().getBasicCardSet();
-            cardSet.PrintSet();
             user.ShowUserInformation();
             while(running)
             {
                 Console.WriteLine("Menu has appeared");
-                Console.WriteLine("Fight AI (fightai)\nFight other Player(fight)\nShowCollection(coll)\nStop(stop)");
+                Console.WriteLine("Fight AI (fightai)\nFight other Player(fight)\nShowCollection(coll)\nCreate a deck(create)\nShow Deck(show)\nStop(stop)");
                 var input = Console.ReadLine();
                 switch(input)
                 {
+                    case "create":
+                        user.CreateDeck();
+                        break;
+                    case "show":
+                        user.ShowDeck();
+                        break;
                     case "fight":
 
                         break;
