@@ -23,6 +23,7 @@ namespace MonsterTradingCardsGame.Menu
                 Console.WriteLine("Password: ");
                 var password = Console.ReadLine();
                 BaseUser User = DataBaseConnection.getInstance().login(username, password);
+                User.SetDeck(DataBaseConnection.getInstance().GetPlayerDeck(User));
                 if(User != null)
                 {
                     Console.Clear();
@@ -86,6 +87,7 @@ namespace MonsterTradingCardsGame.Menu
                         break;
                     case "fight":
                         BaseUser enemy = DataBaseConnection.getInstance().GetEnemy(user);
+                        enemy.SetDeck(DataBaseConnection.getInstance().GetPlayerDeck(enemy));
                         fight.fight(user.GetDeck(), enemy.GetDeck());
                         break;
                     case "coll":

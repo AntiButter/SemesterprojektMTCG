@@ -30,7 +30,10 @@ namespace MonsterTradingCardsGame.Users
         {
 
         }
-
+        public void SetDeck(List<cardBase> UserDeck)
+        {
+            Deck = UserDeck;
+        }
 
         public void AddCardToUserCollection(cardBase CardToAdd)
         {
@@ -62,8 +65,10 @@ namespace MonsterTradingCardsGame.Users
         }
         public void ShowDeck()
         {
+            int counter = 1;
             foreach (cardBase card in Deck)
             {
+                Console.WriteLine($"{counter}: ");
                 card.ShowStats();
             }
         }
