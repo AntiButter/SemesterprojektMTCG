@@ -220,8 +220,9 @@ namespace MonsterTradingCardsGame.DataBase
                 }
                 int eloRangeLimitTop = user.Elo + (Range / 2);
                 int eloRangeLimitBot = user.Elo - (Range / 2);
-                using (var statement = new NpgsqlCommand("Select * from users where elo >= @eloBot and elo <= @eloTop order by random() limit 1", database))
+                using (var statement = new NpgsqlCommand("Select * from users where elo >= @eloBot and elo <= @eloTop and userid != @userid order by random() limit 1", database))
                 {
+                    statement.Parameters.AddWithValue("userid", user.UserID);
                     statement.Parameters.AddWithValue("eloBot", eloRangeLimitBot);
                     statement.Parameters.AddWithValue("eloTop", eloRangeLimitTop);
 
@@ -230,6 +231,7 @@ namespace MonsterTradingCardsGame.DataBase
                     {
                         while (reader.Read())
                         {
+                            
                             BaseUser tempUser = new BaseUser((string)reader["username"], (int)reader["userid"], (int)reader["coins"], (int)reader["token"], (int)reader["elo"]);
                             return tempUser;
                         }
@@ -244,6 +246,27 @@ namespace MonsterTradingCardsGame.DataBase
             }
             return null;
         }
+
+        public void GetPlayerDeck(BaseUser user)
+        {
+            connect();
+            using (var statement = new NpgsqlCommand("Select b.cardid,b.name,b.damage,b.type,b.element,b.race from basiccardset b join usercards u on b.cardid = u.cardid join users u2 on u2.userid = u.userid WHERE u.userid = @userid", database))
+            {
+                statement.Parameters.AddWithValue("userid", user.UserID);
+                NpgsqlDataReader reader = statement.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        cardBase tempCard = new cardBase(reader["name"].ToString(), (int)reader["damage"], (ElementsEnum.elements)reader["element"], (CardTypeEnum.CardTypes)reader["type"],
+                            (CardRaceEnum.Races)reader["race"], (int)reader["cardid"]);
+                        user.AddCardToUserCollection(tempCard);
+                    }
+
+                }
+                disconnect();
+                return user;
+            }
     }
 }
 

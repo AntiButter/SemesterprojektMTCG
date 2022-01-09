@@ -26,6 +26,11 @@ namespace MonsterTradingCardsGame.Users
             
         }
 
+        public void StartTrade(cardBase card)
+        {
+
+        }
+
 
         public void AddCardToUserCollection(cardBase CardToAdd)
         {

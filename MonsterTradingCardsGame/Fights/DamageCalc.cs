@@ -15,6 +15,7 @@ namespace MonsterTradingCardsGame.Fights
             DamageCard1 = Card1.GetCardDamage();
             DamageCard2 = Card2.GetCardDamage();
             int winner = 0;
+            int modifier = 2;
             Card1.ShowStats();
             Console.WriteLine("Fighting with");
             Card2.ShowStats();
@@ -32,12 +33,12 @@ namespace MonsterTradingCardsGame.Fights
                             case EnumsAreTheEnemy.ElementsEnum.elements.fire:
                                 break;
                             case EnumsAreTheEnemy.ElementsEnum.elements.water:
-                                DamageCard1 /= 2;
-                                DamageCard2 *= 2;
+                                DamageCard1 /= modifier;
+                                DamageCard2 *= modifier;
                                 break;
                             case EnumsAreTheEnemy.ElementsEnum.elements.normal:
-                                DamageCard1 *= 2;
-                                DamageCard2 /= 2;
+                                DamageCard1 *= modifier;
+                                DamageCard2 /= modifier;
                                 break;
                         }
                         break;
@@ -45,14 +46,14 @@ namespace MonsterTradingCardsGame.Fights
                         switch (Card2.Element)
                         {
                             case EnumsAreTheEnemy.ElementsEnum.elements.fire:
-                                DamageCard1 *= 2;
-                                DamageCard2 /= 2;
+                                DamageCard1 *= modifier;
+                                DamageCard2 /= modifier;
                                 break;
                             case EnumsAreTheEnemy.ElementsEnum.elements.water:
                                 break;
                             case EnumsAreTheEnemy.ElementsEnum.elements.normal:
-                                DamageCard1 /= 2;
-                                DamageCard2 *= 2;
+                                DamageCard1 /= modifier;
+                                DamageCard2 *= modifier;
                                 break;
                         }
                         break;
@@ -60,12 +61,12 @@ namespace MonsterTradingCardsGame.Fights
                         switch (Card2.Element)
                         {
                             case EnumsAreTheEnemy.ElementsEnum.elements.fire:
-                                DamageCard1 /= 2;
-                                DamageCard2 *= 2;
+                                DamageCard1 /= modifier;
+                                DamageCard2 *= modifier;
                                 break;
                             case EnumsAreTheEnemy.ElementsEnum.elements.water:
-                                DamageCard1 *= 2;
-                                DamageCard2 /= 2;
+                                DamageCard1 *= modifier;
+                                DamageCard2 /= modifier;
                                 break;
                             case EnumsAreTheEnemy.ElementsEnum.elements.normal:
                                 break;
