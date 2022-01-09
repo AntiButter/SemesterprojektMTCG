@@ -8,6 +8,7 @@ namespace MonsterTradingCardsGame.Fights
 {
     class DamageCalc
     {
+        
         public int fight(cardBase Card1, cardBase Card2)
         {
             int DamageCard1, DamageCard2 = 0;

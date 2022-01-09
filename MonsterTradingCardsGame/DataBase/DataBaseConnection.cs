@@ -20,7 +20,7 @@ namespace MonsterTradingCardsGame.DataBase
         {
             return DB;
         }
-        
+
 
         public void connect()
         {
@@ -47,7 +47,7 @@ namespace MonsterTradingCardsGame.DataBase
                             (CardRaceEnum.Races)reader["race"], (int)reader["cardid"]);
                         user.AddCardToUserCollection(tempCard);
                     }
-                    
+
                 }
                 disconnect();
                 return user;
@@ -67,19 +67,19 @@ namespace MonsterTradingCardsGame.DataBase
 
         public void register(string username, string password)
         {
-                connect();
-                using (var statement = new NpgsqlCommand("INSERT INTO users (username, password, coins, elo, token) VALUES (@user, @pass, @co, @elo, @token)", database))
-                {
-                    statement.Parameters.AddWithValue("user", username);
-                    statement.Parameters.AddWithValue("pass", password);
-                    statement.Parameters.AddWithValue("co", 20);
-                    statement.Parameters.AddWithValue("elo", 0);
-                    statement.Parameters.AddWithValue("token", GenerateToken(username));
-                    statement.ExecuteNonQuery();
-                }
-                login(username, password);
-                disconnect();
-            
+            connect();
+            using (var statement = new NpgsqlCommand("INSERT INTO users (username, password, coins, elo, token) VALUES (@user, @pass, @co, @elo, @token)", database))
+            {
+                statement.Parameters.AddWithValue("user", username);
+                statement.Parameters.AddWithValue("pass", password);
+                statement.Parameters.AddWithValue("co", 20);
+                statement.Parameters.AddWithValue("elo", 0);
+                statement.Parameters.AddWithValue("token", GenerateToken(username));
+                statement.ExecuteNonQuery();
+            }
+            login(username, password);
+            disconnect();
+
         }
         public BaseUser login(string username, string password)
         {
@@ -90,7 +90,7 @@ namespace MonsterTradingCardsGame.DataBase
                 statement.Parameters.AddWithValue("pass", password);
 
                 NpgsqlDataReader reader = statement.ExecuteReader();
-                if(reader.HasRows)
+                if (reader.HasRows)
                 {
                     reader.Read();
                     BaseUser tempUser = new BaseUser((string)reader["username"], (int)reader["userid"], (int)reader["coins"], (int)reader["token"], (int)reader["elo"]);
@@ -98,8 +98,8 @@ namespace MonsterTradingCardsGame.DataBase
                     getPlayerstack(tempUser);
                     return tempUser;
                 }
-                
-                
+
+
             }
             disconnect();
             return null;
@@ -111,16 +111,16 @@ namespace MonsterTradingCardsGame.DataBase
             {
                 Set tempset = new Set();
                 NpgsqlDataReader reader = statement.ExecuteReader();
-                if(reader.HasRows)
+                if (reader.HasRows)
                 {
-                    while(reader.Read())
-                    { 
+                    while (reader.Read())
+                    {
                         cardBase tempCard = new cardBase(reader["name"].ToString(), (int)reader["damage"], (ElementsEnum.elements)reader["element"], (CardTypeEnum.CardTypes)reader["type"],
                             (CardRaceEnum.Races)reader["race"], (int)reader["cardid"]);
                         tempset.addCard(tempCard);
-                    } 
+                    }
                 }
-                
+
                 disconnect();
                 return tempset;
             }
@@ -130,14 +130,14 @@ namespace MonsterTradingCardsGame.DataBase
             connect();
             using (var statement = new NpgsqlCommand("INSERT INTO basiccardset (name, damage, type, element, race) VALUES (@name,@damage,@type,@element,@race)", database))
             {
-                statement.Parameters.AddWithValue("name",name);
+                statement.Parameters.AddWithValue("name", name);
                 statement.Parameters.AddWithValue("damage", damage);
                 statement.Parameters.AddWithValue("type", type);
                 statement.Parameters.AddWithValue("element", element);
                 statement.Parameters.AddWithValue("race", race);
                 statement.ExecuteNonQuery();
             }
-            disconnect();   
+            disconnect();
         }
         public void addCardToUser(cardBase card, BaseUser user)
         {
@@ -158,9 +158,9 @@ namespace MonsterTradingCardsGame.DataBase
             using (var statement = new NpgsqlCommand("SELECT * FROM basiccardset ORDER BY random() LIMIT 4", database))
             {
                 NpgsqlDataReader reader = statement.ExecuteReader();
-                if(reader.HasRows)
+                if (reader.HasRows)
                 {
-                    while(reader.Read())
+                    while (reader.Read())
                     {
                         cardBase tempCard = new cardBase(reader["name"].ToString(), (int)reader["damage"], (ElementsEnum.elements)reader["element"], (CardTypeEnum.CardTypes)reader["type"],
                             (CardRaceEnum.Races)reader["race"], (int)reader["cardid"]);
@@ -189,22 +189,61 @@ namespace MonsterTradingCardsGame.DataBase
             {
 
                 NpgsqlDataReader reader = statement.ExecuteReader();
-                if(reader.HasRows)
+                if (reader.HasRows)
                 {
                     int counter = 1;
                     Console.Clear();
-                    while(reader.Read())
+                    while (reader.Read())
                     {
                         Console.WriteLine($"{counter}: {reader["username"]} elo: {reader["elo"]}");
                         counter++;
                     }
                 }
-               
+
 
 
             }
             disconnect();
         }
 
+        public BaseUser GetEnemy(BaseUser user)
+        {
+
+            connect();
+            bool oppenentFound = false;
+            int Range = 200;
+            while (!oppenentFound)
+            {
+                if (Range >= 10000)
+                {
+                    return null;
+                }
+                int eloRangeLimitTop = user.Elo + (Range / 2);
+                int eloRangeLimitBot = user.Elo - (Range / 2);
+                using (var statement = new NpgsqlCommand("Select * from users where elo >= @eloBot and elo <= @eloTop order by random() limit 1", database))
+                {
+                    statement.Parameters.AddWithValue("eloBot", eloRangeLimitBot);
+                    statement.Parameters.AddWithValue("eloTop", eloRangeLimitTop);
+
+                    NpgsqlDataReader reader = statement.ExecuteReader();
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            BaseUser tempUser = new BaseUser((string)reader["username"], (int)reader["userid"], (int)reader["coins"], (int)reader["token"], (int)reader["elo"]);
+                            return tempUser;
+                        }
+                    }
+                    else
+                    {
+                        Range *= 2;
+                        continue;
+                    }
+                }
+
+            }
+            return null;
+        }
     }
 }
+

@@ -6,6 +6,6 @@ namespace MonsterTradingCardsGame.Fights
 {
     interface IFights 
     {
-        public void fightAI(List<cardBase> DeckUser, List<cardBase> DeckAI);
+        public void fight(List<cardBase> DeckUser, List<cardBase> DeckAI);
     }
 }
