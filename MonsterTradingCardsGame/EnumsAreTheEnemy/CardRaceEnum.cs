@@ -15,7 +15,8 @@ namespace MonsterTradingCardsGame.EnumsAreTheEnemy
             Wizard,
             Knight,
             Kraken,
-            FireElves
+            FireElves,
+            Ork
         }
     }
 }

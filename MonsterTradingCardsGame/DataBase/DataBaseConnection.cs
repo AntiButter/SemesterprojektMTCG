@@ -270,6 +270,7 @@ namespace MonsterTradingCardsGame.DataBase
                 return tempList;
             }
         }
+
     }
 }
 

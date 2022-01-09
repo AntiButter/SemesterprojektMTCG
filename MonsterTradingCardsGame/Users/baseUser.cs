@@ -28,7 +28,7 @@ namespace MonsterTradingCardsGame.Users
 
         public void StartTrade(cardBase card)
         {
-
+            
         }
         public void SetDeck(List<cardBase> UserDeck)
         {
@@ -66,10 +66,12 @@ namespace MonsterTradingCardsGame.Users
         public void ShowDeck()
         {
             int counter = 1;
+            Console.Clear();
             foreach (cardBase card in Deck)
             {
                 Console.WriteLine($"{counter}: ");
                 card.ShowStats();
+                counter++;
             }
         }
         public List<cardBase> GetDeck()
@@ -99,6 +101,7 @@ namespace MonsterTradingCardsGame.Users
         }
         public void Trade(cardBase card)
         {
+
 
         }
     }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MonsterTradingCardsGame.Cards;
+using MonsterTradingCardsGame.EnumsAreTheEnemy;
 namespace MonsterTradingCardsGame.Fights
 {
     class DamageCalc
@@ -21,10 +22,88 @@ namespace MonsterTradingCardsGame.Fights
             Card2.ShowStats();
             if (Card1.Type == EnumsAreTheEnemy.CardTypeEnum.CardTypes.monster && Card2.Type == EnumsAreTheEnemy.CardTypeEnum.CardTypes.monster)
             {
+                if(Card1.Race == CardRaceEnum.Races.Goblin && Card2.Race == CardRaceEnum.Races.Dragon)
+                {
+                    winner = 2;
+                    Console.WriteLine("Race Specialty");
+                    Console.WriteLine("Goblins are too afraid of Dragons to Attack!");
+                    return winner;
+                }
+                if (Card2.Race == CardRaceEnum.Races.Goblin && Card1.Race == CardRaceEnum.Races.Dragon)
+                {
+                    winner = 1;
+                    Console.WriteLine("Race Specialty");
+                    Console.WriteLine("Goblins are too afraid of Dragons to Attack!");
+                    return winner;
+                }
+
+                if (Card1.Race == CardRaceEnum.Races.Wizard && Card2.Race == CardRaceEnum.Races.Ork)
+                {
+                    winner = 1;
+                    Console.WriteLine("Race Specialty");
+                    Console.WriteLine("Wizard can control Orks so they are not able to Damage them!");
+                    return winner;
+                }
+                if (Card2.Race == CardRaceEnum.Races.Ork && Card1.Race == CardRaceEnum.Races.Wizard)
+                {
+                    winner = 2;
+                    Console.WriteLine("Race Specialty");
+                    Console.WriteLine("Wizard can control Orks so they are not able to Damage them!");
+                    return winner;
+                }
+
+                if (Card2.Race == CardRaceEnum.Races.FireElves && Card1.Race == CardRaceEnum.Races.Dragon)
+                {
+                    winner = 1;
+                    Console.WriteLine("Race Specialty");
+                    Console.WriteLine("The FireElves know Dragons since they were little and can evade their attacks");
+                    return winner;
+                }
+                if (Card2.Race == CardRaceEnum.Races.Dragon && Card1.Race == CardRaceEnum.Races.FireElves)
+                {
+                    winner = 2;
+                    Console.WriteLine("Race Specialty");
+                    Console.WriteLine("The FireElves know Dragons since they were little and can evade their attacks");
+                    return winner;
+                }
 
             }
             else 
             {
+                if(Card1.Race == CardRaceEnum.Races.Kraken)
+                {
+                    winner = 1;
+                    Console.WriteLine("Race Specialty");
+                    Console.WriteLine("The Kraken is immune to spells");
+                    return winner;
+
+                }
+                else if(Card2.Race == CardRaceEnum.Races.Kraken)
+                {
+                    winner = 2;
+                    Console.WriteLine("Race Specialty");
+                    Console.WriteLine("The Kraken is immune to spells");
+                    return winner;
+                }
+
+
+                if(Card1.Race == CardRaceEnum.Races.Knight && Card2.Element == ElementsEnum.elements.water)
+                {
+                    winner = 2;
+                    Console.WriteLine("Race Specialty");
+                    Console.WriteLine("The armor of knights is so heavy that WaterSpells make them drown instantly");
+                    return winner;
+                }
+                else if (Card2.Race == CardRaceEnum.Races.Knight && Card1.Element == ElementsEnum.elements.water)
+                {
+                    winner = 1;
+                    Console.WriteLine("Race Specialty");
+                    Console.WriteLine("The armor of knights is so heavy that WaterSpells make them drown instantly");
+                    return winner;
+                }
+
+
+
                 switch (Card1.Element)
                 {
                     case EnumsAreTheEnemy.ElementsEnum.elements.fire:

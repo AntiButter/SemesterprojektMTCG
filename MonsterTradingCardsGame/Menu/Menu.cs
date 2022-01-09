@@ -84,6 +84,8 @@ namespace MonsterTradingCardsGame.Menu
                         break;
                     case "show":
                         user.ShowDeck();
+                        Console.WriteLine("Press any key to return to menu");
+                        Console.ReadKey();
                         break;
                     case "fight":
                         BaseUser enemy = DataBaseConnection.getInstance().GetEnemy(user);

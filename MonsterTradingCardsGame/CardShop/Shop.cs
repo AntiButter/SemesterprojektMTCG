@@ -14,5 +14,9 @@ namespace MonsterTradingCardsGame.CardShop
             DataBaseConnection.getInstance().generatePack(user);
         }
 
+        public void ShowTrades(BaseUser user)
+        {
+
+        }
     }
 }
