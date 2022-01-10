@@ -32,25 +32,27 @@ namespace MonsterTradingCardsGame.DataBase
         {
             database.Close();
         }
-        public BaseUser getPlayerstack(BaseUser user)
+        public List<cardBase> getPlayerstack(BaseUser user)
         {
             connect();
             using (var statement = new NpgsqlCommand("Select b.cardid,b.name,b.damage,b.type,b.element,b.race from basiccardset b join usercards u on b.cardid = u.cardid join users u2 on u2.userid = u.userid WHERE u.userid = @userid", database))
             {
                 statement.Parameters.AddWithValue("userid", user.UserID);
                 NpgsqlDataReader reader = statement.ExecuteReader();
+                List<cardBase> tempList = new List<cardBase>();
+                user.ClearCollection();
                 if (reader.HasRows)
                 {
                     while (reader.Read())
                     {
                         cardBase tempCard = new cardBase(reader["name"].ToString(), (int)reader["damage"], (ElementsEnum.elements)reader["element"], (CardTypeEnum.CardTypes)reader["type"],
                             (CardRaceEnum.Races)reader["race"], (int)reader["cardid"]);
-                        user.AddCardToUserCollection(tempCard);
+                        tempList.Add(tempCard);
                     }
 
                 }
                 disconnect();
-                return user;
+                return tempList;
             }
         }
         public int GenerateToken(string name)
@@ -65,7 +67,7 @@ namespace MonsterTradingCardsGame.DataBase
             return token;
         }
 
-        public void register(string username, string password)
+        public BaseUser register(string username, string password)
         {
             connect();
             using (var statement = new NpgsqlCommand("INSERT INTO users (username, password, coins, elo, token) VALUES (@user, @pass, @co, @elo, @token)", database))
@@ -77,9 +79,9 @@ namespace MonsterTradingCardsGame.DataBase
                 statement.Parameters.AddWithValue("token", GenerateToken(username));
                 statement.ExecuteNonQuery();
             }
-            login(username, password);
+            BaseUser tempUser = login(username, password);
             disconnect();
-
+            return tempUser;
         }
         public BaseUser login(string username, string password)
         {
@@ -95,7 +97,8 @@ namespace MonsterTradingCardsGame.DataBase
                     reader.Read();
                     BaseUser tempUser = new BaseUser((string)reader["username"], (int)reader["userid"], (int)reader["coins"], (int)reader["token"], (int)reader["elo"]);
                     disconnect();
-                    getPlayerstack(tempUser);
+                    List<cardBase> tempList = getPlayerstack(tempUser);
+                    tempUser.SetCollection(tempList);
                     return tempUser;
                 }
 
@@ -171,13 +174,14 @@ namespace MonsterTradingCardsGame.DataBase
 
             disconnect();
         }
-        public void PlayerDeckAdd(BaseUser user, cardBase card)
+        public void PlayerDeckAdd(BaseUser user, cardBase card, int stackID)
         {
             connect();
-            using (var statement = new NpgsqlCommand("INSERT INTO userdeck (userid, cardid) VALUES (@userid,@cardid)", database))
+            using (var statement = new NpgsqlCommand("INSERT INTO userdeck (userid, cardid,usercardsid) VALUES (@userid,@cardid,@usercardsid)", database))
             {
                 statement.Parameters.AddWithValue("userid", user.UserID);
                 statement.Parameters.AddWithValue("cardid", card.CardID);
+                statement.Parameters.AddWithValue("usercardsid", stackID);
                 statement.ExecuteNonQuery();
             }
             disconnect();
@@ -251,7 +255,7 @@ namespace MonsterTradingCardsGame.DataBase
         {
 
             connect();
-            using (var statement = new NpgsqlCommand("Select * from basiccardset b join usercards u on b.cardid = u.cardid join users u2 on u2.userid = u.userid where u.userid = @userid", database))
+            using (var statement = new NpgsqlCommand("Select * from basiccardset b join userdeck u on b.cardid = u.cardid join users u2 on u2.userid = u.userid where u.userid = @userid", database))
             {
                 List<cardBase> tempList = new List<cardBase>();
                 statement.Parameters.AddWithValue("userid", user.UserID);
@@ -269,6 +273,43 @@ namespace MonsterTradingCardsGame.DataBase
                 disconnect();
                 return tempList;
             }
+        }
+
+        public void RemoveCardFromPlayerCollection(BaseUser user, int cardid)
+        {
+            connect();
+            using (var statement = new NpgsqlCommand("Select * from usercards where userid = @userid and cardid = @cardid order by random() limit 1", database))
+            {
+                statement.Parameters.AddWithValue("userid", user.UserID);
+                statement.Parameters.AddWithValue("cardid", cardid);
+                NpgsqlDataReader reader = statement.ExecuteReader();
+                if (reader.HasRows && reader.Read())
+                {
+                    int usercardsid = (int)reader["usercardsid"];
+                    reader.Close();
+                    using (var statement2 = new NpgsqlCommand("Delete * from usercards where usercardsid = @id", database))
+                    {
+                        statement.Parameters.AddWithValue("id", usercardsid);
+                        statement.ExecuteNonQuery();
+                    }
+                }
+                disconnect();
+            }
+        }
+
+        public void TradeEntry(BaseUser user, int cardid, string type, string race, string element, int min)
+        {
+            connect();
+            using (var statement = new NpgsqlCommand("Insert into trades (userid, cardid, type, race, element, min_damage) values (@uid,@cid,@type,@race,@element,@min)",database))
+            {
+                statement.Parameters.AddWithValue("uid", user.UserID);
+                statement.Parameters.AddWithValue("cid", cardid);
+                statement.Parameters.AddWithValue("type", type);
+                statement.Parameters.AddWithValue("race", race);
+                statement.Parameters.AddWithValue("element", element);
+                statement.Parameters.AddWithValue("min", min);
+            }
+
         }
 
     }

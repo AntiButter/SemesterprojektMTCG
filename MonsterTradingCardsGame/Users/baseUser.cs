@@ -26,13 +26,46 @@ namespace MonsterTradingCardsGame.Users
             
         }
 
-        public void StartTrade(cardBase card)
+        public void Trade()
         {
-            
+            Console.WriteLine("Choose a card to trade: ");
+            ShowUserCollection();
+            int input = Convert.ToInt32(Console.ReadLine());
+            int cardid = UserCollection[input].CardID;
+            Console.WriteLine("Card Type:");
+            var Type = Console.ReadLine();
+            Console.WriteLine("Card Element:");
+            var Element = Console.ReadLine();
+            Console.WriteLine("Card Race:");
+            var Race = Console.ReadLine();
+            Console.WriteLine("Minimum Damage:");
+            var minDamage = Convert.ToInt32(Console.ReadLine());
+            DataBaseConnection.getInstance().TradeEntry(this, cardid, Type, Race, Element, minDamage);
+
+            DataBaseConnection.getInstance().RemoveCardFromPlayerCollection(this, cardid);
+            DataBaseConnection.getInstance().getPlayerstack(this);
+            DataBaseConnection.getInstance().GetPlayerDeck(this);
+
+        }
+        public bool CheckDeckSize()
+        {
+            if (Deck.Count == 4)
+                return true;
+            else
+                return false;
         }
         public void SetDeck(List<cardBase> UserDeck)
         {
             Deck = UserDeck;
+        }
+        public void SetCollection(List<cardBase> Collection)
+        {
+            UserCollection = Collection;
+            ShowUserCollection();
+        }
+        public void ClearCollection()
+        {
+            UserCollection.Clear();
         }
 
         public void AddCardToUserCollection(cardBase CardToAdd)
@@ -40,9 +73,9 @@ namespace MonsterTradingCardsGame.Users
             UserCollection.Add(CardToAdd);
             Console.WriteLine(UserCollection.Count);
         }
-        public void AddCardToDeck(cardBase card)
+        public void AddCardToDeck(cardBase card, int stackId)
         {
-            DataBaseConnection.getInstance().PlayerDeckAdd(this, card);
+            DataBaseConnection.getInstance().PlayerDeckAdd(this, card, stackId);
             Deck.Add(card);
         }
        
@@ -56,7 +89,9 @@ namespace MonsterTradingCardsGame.Users
                 ShowUserCollection();
                 Console.WriteLine("Choose Card to add: ");
                 int input = Convert.ToInt32(Console.ReadLine());
-                AddCardToDeck(UserCollection[input]);
+                input -= 1;
+                int input2 = input + 1;
+                AddCardToDeck(UserCollection[input],input2);
                 if(Deck.Count >= 4)
                 {
                     deckFinish = true;
@@ -81,7 +116,8 @@ namespace MonsterTradingCardsGame.Users
 
         public void ShowUserCollection()
         {
-            int counter = 0;
+            UserCollection = DataBaseConnection.getInstance().getPlayerstack(this);
+            int counter = 1;
             foreach (cardBase card in UserCollection)
             {
                 Console.WriteLine($"Card {counter}");
@@ -99,10 +135,6 @@ namespace MonsterTradingCardsGame.Users
             Console.WriteLine();
 
         }
-        public void Trade(cardBase card)
-        {
 
-
-        }
     }
 }

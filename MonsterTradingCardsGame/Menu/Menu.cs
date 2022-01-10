@@ -39,7 +39,7 @@ namespace MonsterTradingCardsGame.Menu
                 var username = Console.ReadLine();
                 Console.WriteLine("Password: ");
                 var password = Console.ReadLine();
-                DataBaseConnection.getInstance().register(username, password);
+                BaseUser User = DataBaseConnection.getInstance().register(username, password);
             }
             else if(input == 3)
             {
@@ -87,10 +87,16 @@ namespace MonsterTradingCardsGame.Menu
                         Console.WriteLine("Press any key to return to menu");
                         Console.ReadKey();
                         break;
+                    case "trade":
+                        user.Trade();
+                        break;
                     case "fight":
-                        BaseUser enemy = DataBaseConnection.getInstance().GetEnemy(user);
-                        enemy.SetDeck(DataBaseConnection.getInstance().GetPlayerDeck(enemy));
-                        fight.fight(user.GetDeck(), enemy.GetDeck());
+                        if (user.CheckDeckSize())
+                        {
+                            BaseUser enemy = DataBaseConnection.getInstance().GetEnemy(user);
+                            enemy.SetDeck(DataBaseConnection.getInstance().GetPlayerDeck(enemy));
+                            fight.fight(user.GetDeck(), enemy.GetDeck());
+                        }
                         break;
                     case "coll":
                         Console.Clear();
