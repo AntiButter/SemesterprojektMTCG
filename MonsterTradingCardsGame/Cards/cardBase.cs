@@ -6,7 +6,7 @@ using MonsterTradingCardsGame.Users;
 using MonsterTradingCardsGame.CardShop;
 namespace MonsterTradingCardsGame.Cards
 {
-    class cardBase : ICard
+    public class cardBase : ICard
     {
         public cardBase(string NameOfCard, int DamageValue, ElementsEnum.elements CardElement, CardTypeEnum.CardTypes CardType,CardRaceEnum.Races race, int ID)
         {

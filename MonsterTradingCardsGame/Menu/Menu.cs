@@ -10,7 +10,7 @@ using MonsterTradingCardsGame.Cards;
 using MonsterTradingCardsGame.CardShop;
 namespace MonsterTradingCardsGame.Menu
 {
-    class Menu
+    public class Menu
     {
         public void preMenu()
         {
@@ -54,12 +54,24 @@ namespace MonsterTradingCardsGame.Menu
             while(running)
             {
                 Console.WriteLine("Buy Card Pack (1)");
+                Console.WriteLine("Show Active Trades (2)");
+                Console.WriteLine("Show Avaliable Trades (3)");
+                Console.WriteLine("Return (4)");
                 var input = Convert.ToInt32(Console.ReadLine());
                 if(input == 1)
                 {
                     shop.BuyPack(user);
                 }
                 else if(input == 2)
+                {
+                    shop.ShowTrades(user);
+                }
+                else if(input == 3)
+                {
+                    shop.TradesAvaliable(user);
+                    
+                }
+                else if(input == 4)
                 {
                     return;
                 }
@@ -75,7 +87,7 @@ namespace MonsterTradingCardsGame.Menu
             while(running)
             {
                 Console.WriteLine("Menu has appeared");
-                Console.WriteLine("Fight other Player(fight)\nShowCollection(coll)\nCreate a deck(create)\nShow Deck(show)\nShow Scoreboard(score)\nStop(stop)");
+                Console.WriteLine("Fight other Player(fight)\nShop (shop)\nShowCollection(coll)\nCreate a deck(create)\nShow Deck(show)\nShow Scoreboard(score)\nTrade(trade)\nStop(stop)");
                 var input = Console.ReadLine();
                 switch(input)
                 {

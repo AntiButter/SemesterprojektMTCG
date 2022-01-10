@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MonsterTradingCardsGame.Cards
 {
-    class Set
+    public  class Set
     {
         List<ICard> CardSet;
 

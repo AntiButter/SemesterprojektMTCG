@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MonsterTradingCardsGame.EnumsAreTheEnemy
 {
-    class CardRaceEnum
+    public class CardRaceEnum
     {
         public enum Races
         {

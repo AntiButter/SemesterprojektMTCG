@@ -9,7 +9,7 @@ using MonsterTradingCardsGame.Cards;
 using MonsterTradingCardsGame.EnumsAreTheEnemy;
 namespace MonsterTradingCardsGame.DataBase
 {
-    class DataBaseConnection
+    public class DataBaseConnection
     {
         private static DataBaseConnection DB = new DataBaseConnection();
         const string databaseLogin = "Host=localhost;Username=postgres;Password=;Database=postgres";
@@ -174,14 +174,27 @@ namespace MonsterTradingCardsGame.DataBase
 
             disconnect();
         }
-        public void PlayerDeckAdd(BaseUser user, cardBase card, int stackID)
+        public void PlayerDeckAdd(BaseUser user, cardBase card)
         {
             connect();
+            int stackid;
+            using (var query = new NpgsqlCommand("Select * from usercards where userid = @userid and cardid = @cardid limit 1",database))
+            {
+                query.Parameters.AddWithValue("userid", user.UserID);
+                query.Parameters.AddWithValue("cardid", card.CardID);
+                NpgsqlDataReader reader = query.ExecuteReader();
+                
+                reader.Read();
+                stackid = (int)reader["usercardsid"];
+                
+                
+                reader.Close();
+            }
             using (var statement = new NpgsqlCommand("INSERT INTO userdeck (userid, cardid,usercardsid) VALUES (@userid,@cardid,@usercardsid)", database))
             {
                 statement.Parameters.AddWithValue("userid", user.UserID);
                 statement.Parameters.AddWithValue("cardid", card.CardID);
-                statement.Parameters.AddWithValue("usercardsid", stackID);
+                statement.Parameters.AddWithValue("usercardsid", stackid);
                 statement.ExecuteNonQuery();
             }
             disconnect();
@@ -300,16 +313,14 @@ namespace MonsterTradingCardsGame.DataBase
             }
         }
 
-        public void TradeEntry(BaseUser user, int cardid, string type, string race, string element, int min)
+        public void TradeEntry(BaseUser user, int cardid, int type, int min)
         {
             connect();
-            using (var statement = new NpgsqlCommand("Insert into trades (userid, cardid, type, race, element, min_damage) values (@uid,@cid,@type,@race,@element,@min)",database))
+            using (var statement = new NpgsqlCommand("Insert into trades (userid, cardid, type, min_damage) values (@uid,@cid,@type,@min)",database))
             {
                 statement.Parameters.AddWithValue("uid", user.UserID);
                 statement.Parameters.AddWithValue("cid", cardid);
                 statement.Parameters.AddWithValue("type", type);
-                statement.Parameters.AddWithValue("race", race);
-                statement.Parameters.AddWithValue("element", element);
                 statement.Parameters.AddWithValue("min", min);
                 statement.ExecuteNonQuery();
             }
@@ -342,6 +353,85 @@ namespace MonsterTradingCardsGame.DataBase
             using (var statement = new NpgsqlCommand("Update users set games = games + 1 where userid = @userid", database))
             {
                 statement.Parameters.AddWithValue("userid", user.UserID);
+                statement.ExecuteNonQuery();
+            }
+            disconnect();
+        }
+
+        public void showActiveTrades(BaseUser user)
+        {
+            connect();
+            using (var statement = new NpgsqlCommand("Select * from trades where userid = @userid",database))
+            {
+                statement.Parameters.AddWithValue("userid", user.UserID);
+                NpgsqlDataReader reader = statement.ExecuteReader();
+                int counter = 1;
+                if(reader.HasRows)
+                {
+                    while(reader.Read())
+                    {
+                        Console.WriteLine($"Trade {counter}: Tradeid: {reader["tradeid"]} for {reader["type"]} with min {reader["min_damage"]} damage");
+                    }
+                }
+            }
+            disconnect();
+        }
+
+        public void ShowAvaliableTrades(BaseUser user)
+        {
+            connect();
+            using (var statement = new NpgsqlCommand("Select * from trades where userid != @userid",database))
+            {
+                statement.Parameters.AddWithValue("userid", user.UserID);
+                NpgsqlDataReader reader = statement.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        Console.WriteLine($"Tradeid: {reader["tradeid"]} for {(CardTypeEnum.CardTypes)reader["type"]} with min {reader["min_damage"]} damage");
+                    }
+                }
+            }
+        } 
+
+        public void Trade(BaseUser user, int tradeid, int cardid)
+        {
+            connect();
+            List<cardBase> tempList = user.GetCollection();
+            cardid = (int)tempList[cardid].CardID;
+            using(var statement = new NpgsqlCommand("Select * from trades where tradeid = @tradeid",database))
+            {
+                statement.Parameters.AddWithValue("tradeid", tradeid);
+                NpgsqlDataReader reader = statement.ExecuteReader();
+                if(reader.HasRows)
+                {
+                    reader.Read();
+                    if(((int)reader["type"] == (int)tempList[cardid].Type) && ((int)reader["min_damage"] < tempList[cardid].GetCardDamage()))
+                    {
+                        var userid = (int)reader["userid"];
+                        RemoveCardFromPlayerCollection(user,cardid);
+                        RemoveTrade(tradeid);
+                        reader.Close();
+                        connect();
+                        using (var statement2 = new NpgsqlCommand("Insert into usercards (userid, cardid) values (@userid,@cardid)",database))
+                        {
+                            statement2.Parameters.AddWithValue("userid", userid);
+                            statement2.Parameters.AddWithValue("cardid", cardid);
+                            statement2.ExecuteNonQuery();
+                        }
+                        disconnect();
+                    }
+                }
+            }
+
+        }
+
+        public void RemoveTrade(int Tradeid)
+        {
+            connect();
+            using (var statement = new NpgsqlCommand("Delete from trades where tradeid = @tradeid",database))
+            {
+                statement.Parameters.AddWithValue("tradeid", Tradeid);
                 statement.ExecuteNonQuery();
             }
             disconnect();

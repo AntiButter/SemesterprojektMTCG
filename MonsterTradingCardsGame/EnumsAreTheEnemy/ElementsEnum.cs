@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MonsterTradingCardsGame.EnumsAreTheEnemy
 {
-    class ElementsEnum
+    public class ElementsEnum
     {
         public enum elements
         {

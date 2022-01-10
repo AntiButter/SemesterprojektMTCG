@@ -7,7 +7,7 @@ using MonsterTradingCardsGame.Cards;
 using MonsterTradingCardsGame.EnumsAreTheEnemy;
 namespace MonsterTradingCardsGame.Fights
 {
-    class DamageCalc
+    public class DamageCalc
     {
         
         public int fight(cardBase Card1, cardBase Card2)

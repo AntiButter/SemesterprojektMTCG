@@ -4,13 +4,12 @@ using System.Text;
 
 namespace MonsterTradingCardsGame.EnumsAreTheEnemy
 {
-    class CardTypeEnum
+    public class CardTypeEnum
     {
         public enum CardTypes
         {
             monster,
             spell,
-            skill
         }
     }
 }

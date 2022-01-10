@@ -6,7 +6,7 @@ using MonsterTradingCardsGame.Cards;
 using MonsterTradingCardsGame.DataBase;
 namespace MonsterTradingCardsGame.Users
 {
-    class BaseUser : IUser
+    public class BaseUser : IUser
     {
         public string Username { get; set; }
         public int Currency { get; set; }
@@ -34,14 +34,10 @@ namespace MonsterTradingCardsGame.Users
             input -= 1;
             int cardid = UserCollection[input].CardID;
             Console.WriteLine("Card Type:");
-            var Type = Console.ReadLine();
-            Console.WriteLine("Card Element:");
-            var Element = Console.ReadLine();
-            Console.WriteLine("Card Race:");
-            var Race = Console.ReadLine();
+            var Type = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Minimum Damage:");
             var minDamage = Convert.ToInt32(Console.ReadLine());
-            DataBaseConnection.getInstance().TradeEntry(this, cardid, Type, Race, Element, minDamage);
+            DataBaseConnection.getInstance().TradeEntry(this, cardid, Type, minDamage);
             DataBaseConnection.getInstance().RemoveCardFromPlayerCollection(this, cardid);
             DataBaseConnection.getInstance().getPlayerstack(this);
             DataBaseConnection.getInstance().GetPlayerDeck(this);
@@ -73,9 +69,9 @@ namespace MonsterTradingCardsGame.Users
             UserCollection.Add(CardToAdd);
             Console.WriteLine(UserCollection.Count);
         }
-        public void AddCardToDeck(cardBase card, int stackId)
+        public void AddCardToDeck(cardBase card)
         {
-            DataBaseConnection.getInstance().PlayerDeckAdd(this, card, stackId);
+            DataBaseConnection.getInstance().PlayerDeckAdd(this, card);
             Deck.Add(card);
         }
        
@@ -94,8 +90,7 @@ namespace MonsterTradingCardsGame.Users
                 Console.WriteLine("Choose Card to add: ");
                 int input = Convert.ToInt32(Console.ReadLine());
                 input -= 1;
-                int input2 = input + 1;
-                AddCardToDeck(UserCollection[input],input2);
+                AddCardToDeck(UserCollection[input]);
                 if(Deck.Count >= 4)
                 {
                     deckFinish = true;
@@ -116,6 +111,10 @@ namespace MonsterTradingCardsGame.Users
         public List<cardBase> GetDeck()
         {
             return Deck;
+        }
+        public List<cardBase> GetCollection()
+        {
+            return UserCollection;
         }
 
         public void ShowUserCollection()

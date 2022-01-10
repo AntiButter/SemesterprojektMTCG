@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MonsterTradingCardsGame.Fights
 {
-    class Fighting : IFights
+    public class Fighting : IFights
     {
         private static Random rng = new Random();
         DamageCalc damageCalc = new DamageCalc();
@@ -56,12 +56,15 @@ namespace MonsterTradingCardsGame.Fights
                 if(DeckUser.Count == 0)
                 {
                     Console.WriteLine("The enemy has won the battle!");
+                    Console.ReadKey();
 
                     return 2;
                 }
                 else if(DeckEnemy.Count == 0)
                 {
                     Console.WriteLine("You have won the battle!");
+                    Console.ReadKey();
+
                     return 1;
                 }
                 
@@ -69,12 +72,13 @@ namespace MonsterTradingCardsGame.Fights
                 if(Round >= 100)
                 {
                     Console.WriteLine("Maximum Rounds have been reached, DRAW");
+                    Console.ReadKey();
                     return 0;
                 }
                 Console.WriteLine("________________________________________");
             }
 
-            return;
+            return 0;
         }
 
 
