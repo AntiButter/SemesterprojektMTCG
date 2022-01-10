@@ -13,11 +13,12 @@ namespace MonsterTradingCardsGame.Fights
         DamageCalc damageCalc = new DamageCalc();
         public int fight(List<cardBase> DeckUser, List<cardBase> DeckEnemy)
         {
-            DeckUser = DeckUser.OrderBy(x => rng.Next()).ToList();
-            DeckEnemy = DeckEnemy.OrderBy(x => rng.Next()).ToList();
+            
             int Round = 0;
             while (DeckEnemy.Count != 0 && DeckUser.Count != 0)
             {
+                DeckUser = DeckUser.OrderBy(x => rng.Next()).ToList();
+                DeckEnemy = DeckEnemy.OrderBy(x => rng.Next()).ToList();
                 Round++;
                 Console.WriteLine("________________________________________");
                 Console.WriteLine($"Round {Round}");

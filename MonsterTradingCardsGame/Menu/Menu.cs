@@ -14,37 +14,46 @@ namespace MonsterTradingCardsGame.Menu
     {
         public void preMenu()
         {
-            Console.WriteLine("Login(1) or Register(2)");
-            int input = Convert.ToInt32(Console.ReadLine());
-            if(input == 1)
+            
+            bool loggedIn = false;
+            while(!loggedIn)
             {
-                Console.WriteLine("Username: ");
-                var username = Console.ReadLine();
-                Console.WriteLine("Password: ");
-                var password = Console.ReadLine();
-                BaseUser User = DataBaseConnection.getInstance().login(username, password);
-                User.SetDeck(DataBaseConnection.getInstance().GetPlayerDeck(User));
-                if(User != null)
+                Console.Clear();
+                Console.WriteLine("Login(1) or Register(2)");
+                int input = Convert.ToInt32(Console.ReadLine());
+                if (input == 1)
                 {
-                    Console.Clear();
-                    Console.WriteLine("logged in succesfully");
-                    System.Threading.Thread.Sleep(1000);
-                    Console.Clear();
-                    MenuLoop(User);
+                    Console.WriteLine("Username: ");
+                    var username = Console.ReadLine();
+                    Console.WriteLine("Password: ");
+                    var password = Console.ReadLine();
+                    BaseUser User = DataBaseConnection.getInstance().login(username, password);
+                    
+                    if (User != null)
+                    {
+                        User.SetDeck(DataBaseConnection.getInstance().GetPlayerDeck(User));
+                        Console.Clear();
+                        Console.WriteLine("logged in succesfully");
+                        System.Threading.Thread.Sleep(1000);
+                        Console.Clear();
+                        MenuLoop(User);
+                    }
                 }
+                else if (input == 2)
+                {
+                    Console.WriteLine("Username: ");
+                    var username = Console.ReadLine();
+                    Console.WriteLine("Password: ");
+                    var password = Console.ReadLine();
+                    BaseUser User = DataBaseConnection.getInstance().register(username, password);
+                }
+                else if (input == 3)
+                {
+                    AdminMenu();
+                }
+
             }
-            else if(input == 2)
-            {
-                Console.WriteLine("Username: ");
-                var username = Console.ReadLine();
-                Console.WriteLine("Password: ");
-                var password = Console.ReadLine();
-                BaseUser User = DataBaseConnection.getInstance().register(username, password);
-            }
-            else if(input == 3)
-            {
-                AdminMenu();
-            }
+            
         }
         public void ShopLoop(BaseUser user)
         {

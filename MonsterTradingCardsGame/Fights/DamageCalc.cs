@@ -13,10 +13,12 @@ namespace MonsterTradingCardsGame.Fights
         public int fight(cardBase Card1, cardBase Card2)
         {
             int DamageCard1, DamageCard2 = 0;
+            Random rnd = new Random();
             DamageCard1 = Card1.GetCardDamage();
             DamageCard2 = Card2.GetCardDamage();
             int winner = 0;
-            int modifier = 2;
+            int modifier = rnd.Next(1,4);
+            Console.WriteLine($"Modifier this round {modifier}");
             Card1.ShowStats();
             Console.WriteLine("Fighting with");
             Card2.ShowStats();
@@ -44,7 +46,7 @@ namespace MonsterTradingCardsGame.Fights
                     Console.WriteLine("Wizard can control Orks so they are not able to Damage them!");
                     return winner;
                 }
-                if (Card2.Race == CardRaceEnum.Races.Ork && Card1.Race == CardRaceEnum.Races.Wizard)
+                if (Card1.Race == CardRaceEnum.Races.Ork && Card2.Race == CardRaceEnum.Races.Wizard)
                 {
                     winner = 2;
                     Console.WriteLine("Race Specialty");
@@ -54,14 +56,14 @@ namespace MonsterTradingCardsGame.Fights
 
                 if (Card2.Race == CardRaceEnum.Races.FireElves && Card1.Race == CardRaceEnum.Races.Dragon)
                 {
-                    winner = 1;
+                    winner = 2;
                     Console.WriteLine("Race Specialty");
                     Console.WriteLine("The FireElves know Dragons since they were little and can evade their attacks");
                     return winner;
                 }
                 if (Card2.Race == CardRaceEnum.Races.Dragon && Card1.Race == CardRaceEnum.Races.FireElves)
                 {
-                    winner = 2;
+                    winner = 1;
                     Console.WriteLine("Race Specialty");
                     Console.WriteLine("The FireElves know Dragons since they were little and can evade their attacks");
                     return winner;
