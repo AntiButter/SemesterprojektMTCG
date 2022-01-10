@@ -19,7 +19,7 @@ namespace MonsterTradingCardsGame.Menu
             while(!loggedIn)
             {
                 Console.Clear();
-                Console.WriteLine("Login(1) or Register(2)");
+                Console.WriteLine("Login(1) or Register(2) or Stop (3)");
                 int input = Convert.ToInt32(Console.ReadLine());
                 if (input == 1)
                 {
@@ -28,7 +28,7 @@ namespace MonsterTradingCardsGame.Menu
                     Console.WriteLine("Password: ");
                     var password = Console.ReadLine();
                     BaseUser User = DataBaseConnection.getInstance().login(username, password);
-                    
+
                     if (User != null)
                     {
                         User.SetDeck(DataBaseConnection.getInstance().GetPlayerDeck(User));
@@ -49,8 +49,17 @@ namespace MonsterTradingCardsGame.Menu
                 }
                 else if (input == 3)
                 {
+                    return;
+                }
+                else if(input == 4)
+                {
                     AdminMenu();
                 }
+                else
+                {
+                    continue;
+                }
+
 
             }
             
@@ -116,6 +125,10 @@ namespace MonsterTradingCardsGame.Menu
                         {
                             BaseUser enemy = DataBaseConnection.getInstance().GetEnemy(user);
                             enemy.SetDeck(DataBaseConnection.getInstance().GetPlayerDeck(enemy));
+                            if (!enemy.CheckDeckSize())
+                            {
+                                break;
+                            }
                             int winner = fight.fight(user.GetDeck(), enemy.GetDeck());
                             if(winner == 1)
                             {

@@ -255,6 +255,7 @@ namespace MonsterTradingCardsGame.DataBase
                     }
                     else
                     {
+                        reader.Close();
                         Range *= 2;
                         continue;
                     }
