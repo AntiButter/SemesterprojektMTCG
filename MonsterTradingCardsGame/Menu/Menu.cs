@@ -95,7 +95,26 @@ namespace MonsterTradingCardsGame.Menu
                         {
                             BaseUser enemy = DataBaseConnection.getInstance().GetEnemy(user);
                             enemy.SetDeck(DataBaseConnection.getInstance().GetPlayerDeck(enemy));
-                            fight.fight(user.GetDeck(), enemy.GetDeck());
+                            int winner = fight.fight(user.GetDeck(), enemy.GetDeck());
+                            if(winner == 1)
+                            {
+                                DataBaseConnection.getInstance().IncreaseElo(user);
+                                DataBaseConnection.getInstance().DecreaseElo(enemy);
+                                DataBaseConnection.getInstance().IncreaseGamesPLayed(user);
+                                DataBaseConnection.getInstance().IncreaseGamesPLayed(enemy);
+                            }
+                            else if(winner == 2)
+                            {
+                                DataBaseConnection.getInstance().IncreaseElo(enemy);
+                                DataBaseConnection.getInstance().DecreaseElo(user);
+                                DataBaseConnection.getInstance().IncreaseGamesPLayed(enemy);
+                                DataBaseConnection.getInstance().IncreaseGamesPLayed(user);
+                            }
+                            else if(winner == 0)
+                            {
+                                DataBaseConnection.getInstance().IncreaseGamesPLayed(enemy);
+                                DataBaseConnection.getInstance().IncreaseGamesPLayed(user);
+                            }
                         }
                         break;
                     case "coll":

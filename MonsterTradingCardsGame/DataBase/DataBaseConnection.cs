@@ -283,14 +283,17 @@ namespace MonsterTradingCardsGame.DataBase
                 statement.Parameters.AddWithValue("userid", user.UserID);
                 statement.Parameters.AddWithValue("cardid", cardid);
                 NpgsqlDataReader reader = statement.ExecuteReader();
-                if (reader.HasRows && reader.Read())
+                if (reader.HasRows)
                 {
+                    reader.Read();
                     int usercardsid = (int)reader["usercardsid"];
+                    Console.WriteLine(usercardsid);
+                    Console.ReadKey();
                     reader.Close();
-                    using (var statement2 = new NpgsqlCommand("Delete * from usercards where usercardsid = @id", database))
+                    using (var statement2 = new NpgsqlCommand("Delete from usercards where usercardsid = @id", database))
                     {
-                        statement.Parameters.AddWithValue("id", usercardsid);
-                        statement.ExecuteNonQuery();
+                        statement2.Parameters.AddWithValue("id", usercardsid);
+                        statement2.ExecuteNonQuery();
                     }
                 }
                 disconnect();
@@ -308,8 +311,40 @@ namespace MonsterTradingCardsGame.DataBase
                 statement.Parameters.AddWithValue("race", race);
                 statement.Parameters.AddWithValue("element", element);
                 statement.Parameters.AddWithValue("min", min);
+                statement.ExecuteNonQuery();
             }
+            disconnect();
 
+        }
+        public void IncreaseElo(BaseUser user)
+        {
+            connect();
+            using (var statement = new NpgsqlCommand("Update users set elo = elo + 10 where userid = @userid",database))
+            {
+                statement.Parameters.AddWithValue("userid", user.UserID);
+                statement.ExecuteNonQuery();
+            }
+            disconnect();
+        }
+        public void DecreaseElo(BaseUser user)
+        {
+            connect();
+            using (var statement = new NpgsqlCommand("Update users set elo = elo - 50 where userid = @userid", database))
+            {
+                statement.Parameters.AddWithValue("userid", user.UserID);
+                statement.ExecuteNonQuery();
+            }
+            disconnect();
+        }
+        public void IncreaseGamesPLayed(BaseUser user)
+        {
+            connect();
+            using (var statement = new NpgsqlCommand("Update users set games = games + 1 where userid = @userid", database))
+            {
+                statement.Parameters.AddWithValue("userid", user.UserID);
+                statement.ExecuteNonQuery();
+            }
+            disconnect();
         }
 
     }

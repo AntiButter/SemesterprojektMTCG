@@ -31,6 +31,7 @@ namespace MonsterTradingCardsGame.Users
             Console.WriteLine("Choose a card to trade: ");
             ShowUserCollection();
             int input = Convert.ToInt32(Console.ReadLine());
+            input -= 1;
             int cardid = UserCollection[input].CardID;
             Console.WriteLine("Card Type:");
             var Type = Console.ReadLine();
@@ -41,7 +42,6 @@ namespace MonsterTradingCardsGame.Users
             Console.WriteLine("Minimum Damage:");
             var minDamage = Convert.ToInt32(Console.ReadLine());
             DataBaseConnection.getInstance().TradeEntry(this, cardid, Type, Race, Element, minDamage);
-
             DataBaseConnection.getInstance().RemoveCardFromPlayerCollection(this, cardid);
             DataBaseConnection.getInstance().getPlayerstack(this);
             DataBaseConnection.getInstance().GetPlayerDeck(this);
@@ -81,7 +81,11 @@ namespace MonsterTradingCardsGame.Users
        
         public void CreateDeck()
         {
-           
+           if(UserCollection.Count < 4)
+            {
+                Console.WriteLine("You don't own enough cards to make a deck!!");
+                return;
+            }
             bool deckFinish = false;
             while(!deckFinish)
             {

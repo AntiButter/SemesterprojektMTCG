@@ -11,7 +11,7 @@ namespace MonsterTradingCardsGame.Fights
     {
         private static Random rng = new Random();
         DamageCalc damageCalc = new DamageCalc();
-        public void fight(List<cardBase> DeckUser, List<cardBase> DeckEnemy)
+        public int fight(List<cardBase> DeckUser, List<cardBase> DeckEnemy)
         {
             DeckUser = DeckUser.OrderBy(x => rng.Next()).ToList();
             DeckEnemy = DeckEnemy.OrderBy(x => rng.Next()).ToList();
@@ -55,20 +55,21 @@ namespace MonsterTradingCardsGame.Fights
 
                 if(DeckUser.Count == 0)
                 {
-                    Console.WriteLine("The AI has won the battle!");
-                    return;
+                    Console.WriteLine("The enemy has won the battle!");
+
+                    return 2;
                 }
                 else if(DeckEnemy.Count == 0)
                 {
                     Console.WriteLine("You have won the battle!");
-                    return;
+                    return 1;
                 }
                 
 
                 if(Round >= 100)
                 {
                     Console.WriteLine("Maximum Rounds have been reached, DRAW");
-                    return;
+                    return 0;
                 }
                 Console.WriteLine("________________________________________");
             }
